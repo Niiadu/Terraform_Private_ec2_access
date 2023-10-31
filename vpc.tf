@@ -9,7 +9,7 @@ resource "aws_vpc" "myvpc" {
 resource "aws_subnet" "private-sn1" {
   vpc_id                  = aws_vpc.myvpc.id
   cidr_block              = var.private-sn1-cidr
-  map_public_ip_on_launch = false # public subnet
+  map_public_ip_on_launch = false # private subnet
 
   tags = {
     Name = var.private-sn1-name
