@@ -1,3 +1,4 @@
+# Route table from the private subnet to the nat gateway
 resource "aws_route_table" "private-route" {
   vpc_id = aws_vpc.vpc-01.id
 
@@ -11,7 +12,7 @@ resource "aws_route_table" "private-route" {
   }
 }
 
-# Route the private subnet to the nat gateway 
+# Route association for the private subnet to the nat gateway 
 
 resource "aws_route_table_association" "nat_route_1" {
   subnet_id      = aws_subnet.pri-sn-1.id
@@ -23,4 +24,4 @@ resource "aws_route_table_association" "nat_route_2" {
   route_table_id = aws_route_table.private-route.id
 }
 
-# Route the private database to the Nat Gateway
+

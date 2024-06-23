@@ -1,3 +1,4 @@
+# The application load balancer configuration
 resource "aws_lb" "application-load-balancer" {
   name                       = "web-external-load-balancer"
   internal                   = false
@@ -11,6 +12,7 @@ resource "aws_lb" "application-load-balancer" {
   }
 }
 
+# The target group for the load balancer
 resource "aws_lb_target_group" "alb_target_group" {
   name     = "app-lb-tg"
   port     = 80

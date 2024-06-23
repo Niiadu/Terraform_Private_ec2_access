@@ -17,3 +17,15 @@ variable "private-subnet-01-cidr" {
 variable "private-subnet-02-cidr" {
   default = "10.0.4.0/24"
 }
+
+variable "availability-1" {
+  default = "eu-north-1a"
+}
+
+variable "availability-2" {
+  default = "eu-north-1b"
+}
+
+variable "ami" {
+  default = "ami-0705384c0b33c194c"
+}

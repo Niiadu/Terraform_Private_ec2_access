@@ -1,3 +1,4 @@
+# Security group for the Application load balancer
 resource "aws_security_group" "alb_security_group" {
   name        = "ALB Security Group"
   description = "Allow HTTP and HTTPS ports"
