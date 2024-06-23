@@ -1,27 +1,26 @@
-Building a Robust AWS Infrastructure with Terraform
+# Building a Robust AWS Infrastructure with Terraform
 In this blog post, we'll explore how to create a comprehensive AWS infrastructure using Terraform. This guide will cover setting up a VPC, subnets, security groups, an application load balancer (ALB), an auto-scaling group, and other essential components. By the end of this tutorial, you'll have a scalable, secure infrastructure ready for deployment.
 
-Prerequisites
+## Prerequisites
 Before we begin, ensure you have the following:
 
-An AWS account
-Terraform installed on your local machine
-Basic knowledge of Terraform and AWS services
-Project Overview
+* An AWS account
+* Terraform installed on your local machine
+* Basic knowledge of Terraform and AWS services
+## Project Overview
 Our infrastructure will include the following components:
 
-VPC with public and private subnets
-Internet Gateway and NAT Gateway for internet access
-Security Groups for controlling access
-Application Load Balancer (ALB)
-Auto-Scaling Group with Launch Template
-Route Tables for routing traffic
-Step-by-Step Configuration
-Step 1: Setting Up the VPC
+* VPC with public and private subnets
+* Internet Gateway and NAT Gateway for internet access
+* Security Groups for controlling access
+* Application Load Balancer (ALB)
+* Auto-Scaling Group with Launch Template
+* Route Tables for routing traffic
+## Step-by-Step Configuration
+### Step 1: Setting Up the VPC
 We'll start by defining a Virtual Private Cloud (VPC):
 
-hcl
-Copy code
+```
 resource "aws_vpc" "vpc-01" {
   cidr_block           = var.vpc_cidr
   enable_dns_hostnames = true
@@ -30,11 +29,10 @@ resource "aws_vpc" "vpc-01" {
     Name = "Nii-VPC"
   }
 }
-Step 2: Creating Subnets
+```
+### Step 2: Creating Subnets
 We'll create two public and two private subnets across different availability zones:
-
-hcl
-Copy code
+```
 resource "aws_subnet" "pub-sn-1" {
   vpc_id                  = aws_vpc.vpc-01.id
   cidr_block              = var.public_subnet_01_cidr
@@ -78,11 +76,11 @@ resource "aws_subnet" "pri-sn-2" {
     Name = "Private-subnet-2 | App tier"
   }
 }
-Step 3: Internet Gateway and NAT Gateway
+```
+### Step 3: Internet Gateway and NAT Gateway
 Next, we'll set up an Internet Gateway and a NAT Gateway for internet access:
 
-hcl
-Copy code
+```
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.vpc-01.id
 
@@ -103,11 +101,12 @@ resource "aws_nat_gateway" "nat-gw" {
     Name = "Nat GW"
   }
 }
-Step 4: Route Tables and Associations
+```
+
+### Step 4: Route Tables and Associations
 We'll create route tables to manage traffic routing:
 
-hcl
-Copy code
+```
 resource "aws_route_table" "private-route" {
   vpc_id = aws_vpc.vpc-01.id
 
@@ -153,11 +152,12 @@ resource "aws_route_table_association" "b" {
   subnet_id      = aws_subnet.pub-sn-2.id
   route_table_id = aws_route_table.public-route.id
 }
-Step 5: Security Groups
+```
+
+### Step 5: Security Groups
 We'll define security groups to control access to our resources:
 
-hcl
-Copy code
+```
 resource "aws_security_group" "alb_security_group" {
   name        = "ALB Security Group"
   description = "Allow HTTP and HTTPS ports"
@@ -226,11 +226,12 @@ resource "aws_security_group" "Webserver_security_group" {
     Name = "Webserver Security Group"
   }
 }
-Step 6: Application Load Balancer
+```
+
+### Step 6: Application Load Balancer
 We'll set up an Application Load Balancer to distribute traffic:
 
-hcl
-Copy code
+```
 resource "aws_lb" "application-load-balancer" {
   name                       = "web-external-load-balancer"
   internal                   = false
@@ -261,11 +262,12 @@ resource "aws_lb_listener" "alb-http-listener" {
     target_group_arn = aws_lb_target_group.alb_target_group.arn
   }
 }
-Step 7: Auto Scaling Group and Launch Template
+```
+
+### Step 7: Auto Scaling Group and Launch Template
 We'll configure an Auto Scaling Group with a Launch Template for scalability:
 
-hcl
-Copy code
+```
 resource "aws_launch_template" "auto-scaling-group" {
   name_prefix   = "auto-scaling-group"
   image_id      = var.ami
@@ -294,7 +296,9 @@ resource "aws_autoscaling_attachment" "tg-group" {
   autoscaling_group_name = aws_autoscaling_group.asg-1.id
   lb_target_group_arn    = aws_lb_target_group.alb_target_group.arn
 }
-Final Thoughts
+```
+
+## Final Thoughts
 With this setup, you now have a robust AWS infrastructure capable of handling web traffic, auto-scaling based on demand, and maintaining security best practices. Terraform's declarative approach allows you to manage your infrastructure as code, making it easier to maintain and version control.
 
 Feel free to customize the configurations to fit your specific requirements. Happy coding!
