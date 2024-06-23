@@ -1,30 +1,52 @@
-resource "aws_vpc" "myvpc" {
-  cidr_block = var.vpc-cidr
+resource "aws_vpc" "vpc-01" {
+  cidr_block           = var.vpc_cidr
+  enable_dns_hostnames = true
 
   tags = {
-    Name = var.vpc-name
+    Name = "Nii-VPC"
   }
 }
 
-resource "aws_subnet" "private-sn1" {
-  vpc_id                  = aws_vpc.myvpc.id
-  cidr_block              = var.private-sn1-cidr
-  map_public_ip_on_launch = false # private subnet
+resource "aws_subnet" "pub-sn-1" {
+  vpc_id                  = aws_vpc.vpc-01.id
+  cidr_block              = var.public-subnet-01-cidr
+  availability_zone       = "eu-north-1a"
+  map_public_ip_on_launch = true
 
   tags = {
-    Name = var.private-sn1-name
+    Name = "Public-subnet-1"
   }
 }
 
-
-resource "aws_subnet" "public_sn1" {
-  vpc_id                  = aws_vpc.myvpc.id
-  cidr_block              = var.public-sn1-cidr
-  map_public_ip_on_launch = true # public subnet
+resource "aws_subnet" "pub-sn-2" {
+  vpc_id                  = aws_vpc.vpc-01.id
+  cidr_block              = var.public-subnet-02-cidr
+  availability_zone       = "eu-north-1b"
+  map_public_ip_on_launch = true
 
   tags = {
-    Name = var.public-sn1-name
+    Name = "Public-subnet-2"
   }
 }
 
+resource "aws_subnet" "pri-sn-1" {
+  vpc_id                  = aws_vpc.vpc-01.id
+  cidr_block              = var.private-subnet-01-cidr
+  availability_zone       = "eu-north-1a"
+  map_public_ip_on_launch = false
 
+  tags = {
+    Name = "Private-subnet-1 | App Tier"
+  }
+}
+
+resource "aws_subnet" "pri-sn-2" {
+  vpc_id                  = aws_vpc.vpc-01.id
+  cidr_block              = var.private-subnet-02-cidr
+  availability_zone       = "eu-north-1b"
+  map_public_ip_on_launch = false
+
+  tags = {
+    Name = "Private-subnet-2 | App tier"
+  }
+}
