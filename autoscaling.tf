@@ -14,7 +14,7 @@ resource "aws_launch_template" "auto-scaling-group" {
 # The auto scaling group
 resource "aws_autoscaling_group" "asg-1" {
   vpc_zone_identifier = [ aws_subnet.pri-sn-1.id, aws_subnet.pri-sn-2.id ]
-  desired_capacity   = 2
+  desired_capacity   = 3
   min_size           = 1
   max_size           = 5
 
