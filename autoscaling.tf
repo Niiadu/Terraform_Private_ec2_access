@@ -4,7 +4,7 @@ resource "aws_launch_template" "auto-scaling-group" {
   image_id      = var.ami
   instance_type = "t3.micro"
   key_name      = "linux_machine"
-  user_data = filebase64("nginx.sh")
+  user_data = filebase64("${path.module}/nginx.sh")
 
   network_interfaces {
     security_groups = [aws_security_group.Webserver_security_group.id]
