@@ -26,6 +26,3 @@ variable "availability-2" {
   default = "eu-north-1b"
 }
 
-variable "ami" {
-  default = "ami-0705384c0b33c194c"
-}

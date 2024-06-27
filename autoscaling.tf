@@ -1,7 +1,7 @@
 # The launch template for the auto scaling group
 resource "aws_launch_template" "auto-scaling-group" {
   name_prefix   = "auto-scaling-group"
-  image_id      = var.ami
+  image_id      = data.aws_ami.ubuntu.id
   instance_type = "t3.micro"
   key_name      = "linux_machine"
   user_data = filebase64("${path.module}/nginx.sh")
